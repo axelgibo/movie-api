@@ -1,12 +1,145 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>My API Documentation</title>
-</head>
-<body>
+  </head>
+  <body>
+    <h1>My movies API</h1>
+    <p>
+      This API allows developers to access and interact with my movie database.
+      It provides endpoints for retrieving movie information, adding new movies,
+      and more.
+    </p>
 
-    <h1>My Awesome API</h1>
-    <p>This API allows developers to access and interact with my movie database. It provides endpoints for retrieving movie information, adding new movies, and more.</p>
-
-</body>
+    <table>
+      <thead>
+        <tr>
+          <th>Request</th>
+          <th>URL</th>
+          <th>Method</th>
+          <th>Response</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Get All Movies</td>
+          <td>/movies</td>
+          <td>GET</td>
+          <td>JSON array of all movies</td>
+        </tr>
+        <tr>
+          <td>Get Movie by Title</td>
+          <td>/movies/:title</td>
+          <td>GET</td>
+          <td>title (string)</td>
+          <td>None</td>
+          <td>
+            JSON object containing movie details: <br />
+            {<br />
+            "title": "The Shawshank Redemption",<br />
+            "description": "...",<br />
+            "genre": "Drama",<br />
+            "director": "Frank Darabont",<br />
+            "imageUrl": "...",<br />
+            "featured": false<br />
+            }
+          </td>
+          <td>Returns details of a movie based on its title.</td>
+        </tr>
+        <tr>
+          <td>Get Genre by Name</td>
+          <td>/genres/:name</td>
+          <td>GET</td>
+          <td>name (string)</td>
+          <td>None</td>
+          <td>
+            JSON object containing genre details: <br />
+            {<br />
+            "name": "Drama",<br />
+            "description": "..."<br />
+            }
+          </td>
+          <td>Returns the description of a genre based on its name.</td>
+        </tr>
+        <tr>
+          <td>Get Director by Name</td>
+          <td>/directors/:name</td>
+          <td>GET</td>
+          <td>name (string)</td>
+          <td>None</td>
+          <td>
+            JSON object containing director details: <br />
+            {<br />
+            "name": "Frank Darabont",<br />
+            "bio": "...",<br />
+            "birthYear": 1959,<br />
+            "deathYear": null<br />
+            }
+          </td>
+          <td>Returns details of a director based on their name.</td>
+        </tr>
+        <tr>
+          <td>Register New User</td>
+          <td>/users</td>
+          <td>POST</td>
+          <td>None</td>
+          <td>
+            JSON object containing user details: <br />
+            {<br />
+            "username": "newuser",<br />
+            "password": "password123",<br />
+            "email": "newuser@example.com",<br />
+            "birthdate": "1990-01-01"<br />
+            }
+          </td>
+          <td>Text: "User registered successfully"</td>
+          <td>Registers a new user.</td>
+        </tr>
+        <tr>
+          <td>Update User Info</td>
+          <td>/users/:username</td>
+          <td>PUT</td>
+          <td>username (string)</td>
+          <td>
+            JSON object containing updated user details: <br />
+            {<br />
+            "username": "updateduser",<br />
+            "password": "newpassword456",<br />
+            "email": "updateduser@example.com",<br />
+            "birthdate": "1995-05-05"<br />
+            }
+          </td>
+          <td>Text: "User info updated successfully"</td>
+          <td>Updates user information.</td>
+        </tr>
+        <tr>
+          <td>Add Movie to Favorites</td>
+          <td>/users/:username/movies/:movieId</td>
+          <td>POST</td>
+          <td>username (string), movieId (string)</td>
+          <td>None</td>
+          <td>Text: "Movie added to favorites"</td>
+          <td>Adds a movie to a user's favorites list.</td>
+        </tr>
+        <tr>
+          <td>Remove Movie from Favorites</td>
+          <td>/users/:username/movies/:movieId</td>
+          <td>DELETE</td>
+          <td>username (string), movieId (string)</td>
+          <td>None</td>
+          <td>Text: "Movie removed from favorites"</td>
+          <td>Removes a movie from a user's favorites list.</td>
+        </tr>
+        <tr>
+          <td>Deregister User</td>
+          <td>/users/:username</td>
+          <td>DELETE</td>
+          <td>username (string)</td>
+          <td>None</td>
+          <td>Text: "User deregistered successfully"</td>
+          <td>Deregisters a user.</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
 </html>
