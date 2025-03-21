@@ -17,7 +17,10 @@
           <th>Request</th>
           <th>URL</th>
           <th>Method</th>
+          <th>Parameters</th>
+          <th>Request Body Example</th>
           <th>Response</th>
+          <th>Description</th>
         </tr>
       </thead>
       <tbody>
@@ -25,24 +28,52 @@
           <td>Get All Movies</td>
           <td>/movies</td>
           <td>GET</td>
-          <td>JSON array of all movies</td>
+          <td>None</td>
+          <td>None</td>
+          <td>
+            <strong>Response:</strong>
+            <pre>
+[
+  {
+    "_id": "65...",
+    "Title": "The Shawshank Redemption",
+    "Description": "...",
+    "Genre": { "Name": "Drama", "Description": "..." },
+    "Director": { "Name": "Frank Darabont", "Bio": "..." },
+    "Actors": ["Tim Robbins", "Morgan Freeman"],
+    "ImagePath": "shawshank.jpg",
+    "Featured": true,
+    "__v": 0
+  },
+  // ... more movies
+]
+                    </pre
+            >
+          </td>
+          <td>Returns a list of all movies.</td>
         </tr>
         <tr>
           <td>Get Movie by Title</td>
           <td>/movies/:title</td>
           <td>GET</td>
-          <td>title (string)</td>
+          <td><strong>Path Parameter:</strong> title (string)</td>
           <td>None</td>
           <td>
-            JSON object containing movie details: <br />
-            {<br />
-            "title": "The Shawshank Redemption",<br />
-            "description": "...",<br />
-            "genre": "Drama",<br />
-            "director": "Frank Darabont",<br />
-            "imageUrl": "...",<br />
-            "featured": false<br />
-            }
+            <strong>Response:</strong>
+            <pre>
+{
+  "_id": "65...",
+  "Title": "The Shawshank Redemption",
+  "Description": "...",
+  "Genre": { "Name": "Drama", "Description": "..." },
+  "Director": { "Name": "Frank Darabont", "Bio": "..." },
+  "Actors": ["Tim Robbins", "Morgan Freeman"],
+  "ImagePath": "shawshank.jpg",
+  "Featured": true,
+  "__v": 0
+}
+                    </pre
+            >
           </td>
           <td>Returns details of a movie based on its title.</td>
         </tr>
@@ -50,14 +81,14 @@
           <td>Get Genre by Name</td>
           <td>/genres/:name</td>
           <td>GET</td>
-          <td>name (string)</td>
+          <td><strong>Path Parameter:</strong> name (string)</td>
           <td>None</td>
           <td>
-            JSON object containing genre details: <br />
-            {<br />
-            "name": "Drama",<br />
-            "description": "..."<br />
-            }
+            <strong>Response:</strong>
+            <pre>
+{ "Name": "Drama", "Description": "..." }
+                    </pre
+            >
           </td>
           <td>Returns the description of a genre based on its name.</td>
         </tr>
@@ -65,16 +96,14 @@
           <td>Get Director by Name</td>
           <td>/directors/:name</td>
           <td>GET</td>
-          <td>name (string)</td>
+          <td><strong>Path Parameter:</strong> name (string)</td>
           <td>None</td>
           <td>
-            JSON object containing director details: <br />
-            {<br />
-            "name": "Frank Darabont",<br />
-            "bio": "...",<br />
-            "birthYear": 1959,<br />
-            "deathYear": null<br />
-            }
+            <strong>Response:</strong>
+            <pre>
+{ "Name": "Frank Darabont", "Bio": "..." }
+                    </pre
+            >
           </td>
           <td>Returns details of a director based on their name.</td>
         </tr>
@@ -84,59 +113,131 @@
           <td>POST</td>
           <td>None</td>
           <td>
-            JSON object containing user details: <br />
-            {<br />
-            "username": "newuser",<br />
-            "password": "password123",<br />
-            "email": "newuser@example.com",<br />
-            "birthdate": "1990-01-01"<br />
-            }
+            <strong>Request Body Example:</strong>
+            <pre>
+{
+  "Username": "newuser",
+  "Password": "password123",
+  "Email": "newuser@example.com",
+  "Birthday": "1990-01-01"
+}
+                    </pre
+            >
           </td>
-          <td>Text: "User registered successfully"</td>
+          <td>
+            <strong>Response:</strong>
+            <pre>
+{
+  "_id": "65...",
+  "Username": "newuser",
+  "Password": "password123",
+  "Email": "newuser@example.com",
+  "Birthday": "1990-01-01T00:00:00.000Z",
+  "FavoriteMovies": [],
+  "__v": 0
+}
+                    </pre
+            >
+          </td>
           <td>Registers a new user.</td>
         </tr>
         <tr>
           <td>Update User Info</td>
           <td>/users/:username</td>
           <td>PUT</td>
-          <td>username (string)</td>
+          <td><strong>Path Parameter:</strong> username (string)</td>
           <td>
-            JSON object containing updated user details: <br />
-            {<br />
-            "username": "updateduser",<br />
-            "password": "newpassword456",<br />
-            "email": "updateduser@example.com",<br />
-            "birthdate": "1995-05-05"<br />
-            }
+            <strong>Request Body Example:</strong>
+            <pre>
+{
+  "Username": "updateduser",
+  "Password": "newpassword456",
+  "Email": "updateduser@example.com",
+  "Birthday": "1995-05-05"
+}
+                    </pre
+            >
           </td>
-          <td>Text: "User info updated successfully"</td>
+          <td>
+            <strong>Response:</strong>
+            <pre>
+{
+  "_id": "65...",
+  "Username": "updateduser",
+  "Password": "newpassword456",
+  "Email": "updateduser@example.com",
+  "Birthday": "1995-05-05T00:00:00.000Z",
+  "FavoriteMovies": [],
+  "__v": 0
+}
+                    </pre
+            >
+          </td>
           <td>Updates user information.</td>
         </tr>
         <tr>
           <td>Add Movie to Favorites</td>
           <td>/users/:username/movies/:movieId</td>
           <td>POST</td>
-          <td>username (string), movieId (string)</td>
+          <td>
+            <strong>Path Parameter:</strong> username (string), movieId (string)
+          </td>
           <td>None</td>
-          <td>Text: "Movie added to favorites"</td>
+          <td>
+            <strong>Response:</strong>
+            <pre>
+{
+  "_id": "65...",
+  "Username": "user",
+  "Password": "password",
+  "Email": "user@example.com",
+  "Birthday": "1990-01-01T00:00:00.000Z",
+  "FavoriteMovies": ["65..."],
+  "__v": 1
+}
+                    </pre
+            >
+          </td>
           <td>Adds a movie to a user's favorites list.</td>
         </tr>
         <tr>
           <td>Remove Movie from Favorites</td>
           <td>/users/:username/movies/:movieId</td>
           <td>DELETE</td>
-          <td>username (string), movieId (string)</td>
+          <td>
+            <strong>Path Parameter:</strong> username (string), movieId (string)
+          </td>
           <td>None</td>
-          <td>Text: "Movie removed from favorites"</td>
+          <td>
+            <strong>Response:</strong>
+            <pre>
+{
+  "_id": "65...",
+  "Username": "user",
+  "Password": "password",
+  "Email": "user@example.com",
+  "Birthday": "1990-01-01T00:00:00.000Z",
+  "FavoriteMovies": [],
+  "__v": 1
+}
+                    </pre
+            >
+          </td>
           <td>Removes a movie from a user's favorites list.</td>
         </tr>
         <tr>
           <td>Deregister User</td>
           <td>/users/:username</td>
           <td>DELETE</td>
-          <td>username (string)</td>
+          <td><strong>Path Parameter:</strong> username (string)</td>
           <td>None</td>
-          <td>Text: "User deregistered successfully"</td>
+          <td>
+            <strong>Response:</strong>
+            <pre>
+{ "message": "user was deleted." }
+                    </pre
+            >
+          </td>
           <td>Deregisters a user.</td>
         </tr>
       </tbody>

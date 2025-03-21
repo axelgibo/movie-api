@@ -1,10 +1,24 @@
+const bodyParser = require("body-parser");
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+const mongoose = require("mongoose");
+const Models = require("./models.js");
+
+const Movies = Models.Movie;
+const Users = Models.User;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(morgan("common"));
 
 app.use(express.static("public"));
+
+mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const top10Movies = [
   {
@@ -60,39 +74,126 @@ const top10Movies = [
 ];
 
 app.get("/movies", (req, res) => {
-  res.send("Successful GET request returning data on all movies");
+  Movies.find({})
+    .then((movies) => {
+      res.json(movies);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 app.get("/movies/:title", (req, res) => {
-  res.send("Successful GET request returning data on a single movie");
+  Movies.findOne({ Title: req.params.title })
+    .then((movie) => {
+      res.json(movie);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 app.get("/genres/:name", (req, res) => {
-  res.send("Successful GET request returning data on a genre");
+  Movies.findOne({ "Genre.Name": req.params.name })
+    .then((movie) => {
+      res.json(movie.Genre);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 app.get("/directors/:name", (req, res) => {
-  res.send("Successful GET request returning data on a director");
+  Movies.findOne({ "Director.Name": req.params.name })
+    .then((movie) => {
+      res.json(movie.Director);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 app.post("/users", (req, res) => {
-  res.send("Successful POST request to register a new user");
+  Users.create({
+    Username: req.body.Username,
+    Password: req.body.Password,
+    Email: req.body.Email,
+    Birthday: req.body.Birthday,
+  })
+    .then((user) => {
+      res.status(201).json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 app.put("/users/:username", (req, res) => {
-  res.send("Successful PUT request to update user info");
+  Users.findOneAndUpdate(
+    { Username: req.params.username },
+    {
+      $set: {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday,
+      },
+    },
+    { new: true }
+  )
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 app.post("/users/:username/movies/:movieId", (req, res) => {
-  res.send("Successful POST request to add a movie to favorites");
+  Users.findOneAndUpdate(
+    { Username: req.params.username },
+    { $push: { FavoriteMovies: req.params.movieId } },
+    { new: true }
+  )
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 app.delete("/users/:username/movies/:movieId", (req, res) => {
-  res.send("Successful DELETE request to remove a movie from favorites");
+  Users.findOneAndUpdate(
+    { Username: req.params.username },
+    { $pull: { FavoriteMovies: req.params.movieId } },
+    { new: true }
+  )
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 app.delete("/users/:username", (req, res) => {
-  res.send("Successful DELETE request to deregister a user");
+  Users.findOneAndDelete({ Username: req.params.username })
+    .then((user) => {
+      res.send(req.params.username + " was deleted.");
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 app.use((err, req, res, next) => {
