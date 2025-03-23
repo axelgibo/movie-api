@@ -43,7 +43,7 @@ require("./passport");
 // useUnifiedTopology: true,
 // });
 
-mongoose.connect("mongodb+srv://axelgibopro:axelgibo@myflixdb.krh5j.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixDB", {
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
