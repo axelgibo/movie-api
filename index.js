@@ -38,7 +38,12 @@ let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
 
-mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+//mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+// useNewUrlParser: true,
+// useUnifiedTopology: true,
+// });
+
+mongoose.connect("mongodb+srv://axelgibopro:axelgibo@myflixdb.krh5j.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -237,6 +242,6 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
- console.log('Listening on Port ' + port);
+app.listen(port, "0.0.0.0", () => {
+  console.log("Listening on Port " + port);
 });
