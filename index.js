@@ -1,4 +1,3 @@
-console.log("Forcing a fresh Heroku build");
 const bodyParser = require("body-parser");
 const express = require("express");
 const morgan = require("morgan");
