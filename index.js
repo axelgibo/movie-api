@@ -7,6 +7,8 @@ const Models = require("./models.js");
 const { check, validationResult } = require("express-validator");
 const Movies = Models.Movie;
 const Users = Models.User;
+const bcrypt = require('bcryptjs');
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
