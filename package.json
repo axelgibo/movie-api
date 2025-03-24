@@ -16,23 +16,23 @@
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
-  "install": "node-pre-gyp install --fallback-to-build --update-binary --target_platform=linux --target_arch=x64 --target_libc=glibc",
-  "start": "node index.js",
-  "test": "echo \"Error: no test specified\" && exit 1"
-},
+    "install": "node-pre-gyp install --fallback-to-build --update-binary --target_platform=linux --target_arch=x64 --target_libc=glibc",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.2",
-    "node-pre-gyp": "^1.0.11",
-  "prebuild-install": "^2.5.3",
     "body-parser": "^1.20.3",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "mongoose": "^8.12.1",
     "morgan": "^1.10.0",
+    "node-pre-gyp": "^1.0.11",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "prebuild-install": "^2.5.3"
   },
   "devDependencies": {
     "eslint": "^9.22.0",
