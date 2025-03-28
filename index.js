@@ -7,8 +7,7 @@ const Models = require("./models.js");
 const { check, validationResult } = require("express-validator");
 const Movies = Models.Movie;
 const Users = Models.User;
-const bcrypt = require('bcryptjs');
-
+const bcrypt = require("bcryptjs");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,16 +17,16 @@ app.use(morgan("common"));
 app.use(express.static("public"));
 
 const cors = require("cors");
-let allowedOrigins = ["http://localhost:8080", "http://testsite.com"];
+let allowedOrigins = ["http://localhost:8080", "http://testsite.com", "http://localhost:3000"];
 
 app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
       if (allowedOrigins.indexOf(origin) === -1) {
-        // If a specific origin isn’t found on the list of allowed origins
+        // If a specific origin is not found on the list of allowed origins
         let message =
-          "The CORS policy for this application does not allow access from origin " +
+          "The CORS policy for this application doesn’t allow access from origin " +
           origin;
         return callback(new Error(message), false);
       }
@@ -50,19 +49,16 @@ mongoose.connect(process.env.CONNECTION_URI, {
   useUnifiedTopology: true,
 });
 
-app.get(
-  "/movies",
-  async (req, res) => {
-    await Movies.find()
-      .then((movies) => {
-        res.status(201).json(movies);
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).send("Error: " + error);
-      });
-  }
-);
+app.get("/movies", async (req, res) => {
+  await Movies.find()
+    .then((movies) => {
+      res.status(201).json(movies);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
+});
 
 app.get(
   "/movies/:title",
@@ -79,16 +75,20 @@ app.get(
   }
 );
 
-app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOne({ Username: req.params.Username })
-    .then((user) => {
-      res.json(user);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+app.get(
+  "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Users.findOne({ Username: req.params.Username })
+      .then((user) => {
+        res.json(user);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 app.get(
   "/genres/:name",
