@@ -39,13 +39,11 @@ app.use(
   })
 );
 
-let auth = require("./auth")(app);
-const passport = require("passport");
-require("./passport");
-
 mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000, // Increase timeout
+  socketTimeoutMS: 45000, // Increase socket timeout
 });
 
 app.get("/movies", async (req, res) => {
